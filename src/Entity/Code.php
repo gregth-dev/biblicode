@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Code
 {
     use ResourceId;
+    use Timestampable;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -25,11 +26,6 @@ class Code
      * @ORM\Column(type="text")
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -72,18 +68,6 @@ class Code
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
