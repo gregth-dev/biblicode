@@ -7,6 +7,8 @@ namespace App\Entity;
 use App\Repository\CodeRepository;
 use DateTime;
 use DateTimeZone;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,11 +30,6 @@ class Code
     private $content;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $tags = [];
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $link;
@@ -43,9 +40,15 @@ class Code
      */
     private $author;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="codes")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->createdAt = new DateTime('now', new DateTimeZone('Europe/Paris'));
+        $this->tags = new ArrayCollection();
     }
 
     public function getDescription(): ?string
@@ -72,18 +75,6 @@ class Code
         return $this;
     }
 
-    public function getTags(): ?array
-    {
-        return $this->tags;
-    }
-
-    public function setTags(?array $tags): self
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
     public function getLink(): ?string
     {
         return $this->link;
@@ -104,6 +95,32 @@ class Code
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+        }
 
         return $this;
     }
