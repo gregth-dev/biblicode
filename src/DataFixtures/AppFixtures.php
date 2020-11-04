@@ -33,6 +33,7 @@ class AppFixtures extends Fixture
             $content = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, deserunt temporibus. Quam, fuga! Fuga inventore assumenda totam, 
             blanditiis nihil soluta laboriosam nesciunt maxime doloremque vitae temporibus provident excepturi molestias cumque.";
             $code->setContent($content);
+            $code->setAuthor($user);
             $tag = new Tag();
             $tag->setName('test');
             $code->addTag($tag);
