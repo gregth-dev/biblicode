@@ -41,7 +41,7 @@ class Code
     private $author;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="codes")
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="codes")
      */
     private $tags;
 
@@ -107,7 +107,7 @@ class Code
         return $this->tags;
     }
 
-    public function addTag(Tags $tag): self
+    public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
@@ -116,7 +116,7 @@ class Code
         return $this;
     }
 
-    public function removeTag(Tags $tag): self
+    public function removeTag(Tag $tag): self
     {
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);

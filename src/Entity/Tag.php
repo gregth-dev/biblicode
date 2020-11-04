@@ -10,14 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=TagsRepository::class)
  */
-class Tags
+class Tag
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,11 +27,6 @@ class Tags
     public function __construct()
     {
         $this->codes = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
