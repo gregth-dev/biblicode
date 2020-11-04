@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeInterface;
+
 trait Timestampable
 {
 
@@ -15,7 +17,7 @@ trait Timestampable
 
     /**
      * @var \DateTimeInterface
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?\DateTimeInterface $updatedAt;
 
@@ -34,7 +36,7 @@ trait Timestampable
     /**
      * Get the value of updatedAt
      *
-     * @return  \DateTimeInterface
+     * @return  \DateTimeInterface|null
      */
     public function getUpdatedAt()
     {
@@ -48,7 +50,7 @@ trait Timestampable
      *
      * @return  self
      */
-    public function setUpdatedAt(\DateTimeInterface $updatedAt)
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt)
     {
         $this->updatedAt = $updatedAt;
 

@@ -37,6 +37,15 @@ class AppFixtures extends Fixture
             $tag->setName('test');
             $code->addTag($tag);
             $manager->persist($tag);
+            $tag = new Tag();
+            $tag->setName('lorem');
+            $code->addTag($tag);
+            $manager->persist($tag);
+            $tag = new Tag();
+            $tag->setName('langage' . $i);
+            $code->addTag($tag);
+            $manager->persist($tag);
+            $manager->persist($code);
         }
 
         $manager->flush();
