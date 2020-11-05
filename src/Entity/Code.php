@@ -11,10 +11,26 @@ use App\Repository\CodeRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CodeRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *              "get"={
+ *                  "normalization_context"={"groups"={"code_read"}}
+ *          },
+ *          "post"
+ *      },
+ *      itemOperations={
+ *              "get"={
+ *                  "normalization_context"={"groups"={"code_details_read"}}
+ *      },
+ *      "put",
+ *      "patch",
+ *      "delete"
+ *      }
+ * )
  */
 class Code
 {
@@ -23,34 +39,38 @@ class Code
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user_details_read", "code_details_read", "code_read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"user_details_read", "code_details_read", "code_read"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user_details_read", "code_details_read", "code_read"})
      */
     private $link;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="codes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"code_details_read", "code_read"})
      */
     private $author;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="codes")
+     * @ORM\Column(type="json", nullable=true)
+     * @Groups({"user_details_read", "code_details_read", "code_read"})
      */
-    private $tags;
+    private $tags = [];
 
     public function __construct()
     {
         $this->createdAt = new DateTime('now', new DateTimeZone('Europe/Paris'));
-        $this->tags = new ArrayCollection();
     }
 
     public function getDescription(): ?string
@@ -101,28 +121,14 @@ class Code
         return $this;
     }
 
-    /**
-     * @return Collection|Tags[]
-     */
-    public function getTags(): Collection
+    public function getTags(): ?array
     {
         return $this->tags;
     }
 
-    public function addTag(Tag $tag): self
+    public function setTags(?array $tags): self
     {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-        }
-
-        return $this;
-    }
-
-    public function removeTag(Tag $tag): self
-    {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
-        }
+        $this->tags = $tags;
 
         return $this;
     }

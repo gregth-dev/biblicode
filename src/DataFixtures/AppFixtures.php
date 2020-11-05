@@ -34,18 +34,7 @@ class AppFixtures extends Fixture
             blanditiis nihil soluta laboriosam nesciunt maxime doloremque vitae temporibus provident excepturi molestias cumque.";
             $code->setContent($content);
             $code->setAuthor($user);
-            $tag = new Tag();
-            $tag->setName('test');
-            $code->addTag($tag);
-            $manager->persist($tag);
-            $tag = new Tag();
-            $tag->setName('lorem');
-            $code->addTag($tag);
-            $manager->persist($tag);
-            $tag = new Tag();
-            $tag->setName('langage' . $i);
-            $code->addTag($tag);
-            $manager->persist($tag);
+            $code->setTags(['test', 'lorem', 'description' . $i]);
             $manager->persist($code);
         }
 
