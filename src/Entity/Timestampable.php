@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait Timestampable
 {
@@ -12,12 +13,14 @@ trait Timestampable
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Groups({"code_details_read","code_read"})
      */
     private \DateTimeInterface $createdAt;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"code_details_read","code_read"})
      */
     private ?\DateTimeInterface $updatedAt;
 

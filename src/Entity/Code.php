@@ -7,11 +7,16 @@ namespace App\Entity;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\CodeUpdatedAt;
 use App\Repository\CodeRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=CodeRepository::class)
@@ -28,9 +33,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      },
  *      "put",
  *      "patch",
- *      "delete"
+ *      "delete",
+ *      "put_updated_at"={
+ *         "method"="PUT",
+ *         "path"="/code/{id}/updated-at",
+ *         "controller"=CodeUpdatedAt::class,
+ *     }
  *      }
  * )
+ * @ApiFilter(DateFilter::class, properties={"updatedAt"})
+ * @ApiFilter(SearchFilter::class, properties={"tags": "partial"})
+ * @ApiFilter(OrderFilter::class, properties={"createdAt"}, arguments={"orderParameterName"="order"})
  */
 class Code
 {
